@@ -69,8 +69,9 @@ def maketxt():#创建文本文件
     a=str(input("请输入保存文本的名字: "))
     try:
         with open(a, 'w') as f:
-            f.write(a)
-        print(f"成功创建"+a)
+            f.close()
+        print("成功创建")
+        
     except IOError:
         print("写入文件时出错")
 def retxt():#读取文本文件
@@ -84,8 +85,12 @@ def retxt():#读取文本文件
 def txt(filename=str, body=str):#写入文本文件
     try:
         with open(filename, 'a') as f:
-            f.write(body)
-        print(f"成功写入 {filename}.")
+            next=input("需不需要换行: ")
+            if next.lower() == 'y' or next.lower() == 'yes':
+                f.write(body + "\n")
+            else:
+                f.write(body)
+        print("成功写入")
     except FileNotFoundError:
         print(f"文件不存在")
 def rename(old_name, new_name):#重命名
@@ -108,6 +113,14 @@ def remove():
         print(f"{filename} 已成功删除.")
     except FileNotFoundError:
         print(f"指定的文件 '{filename}' 不存在")
+def cd():
+    try:
+        directory = input("输入要切换到的目录: ")
+        os.chdir(directory)
+        print(f"当前工作目录已更改为: {os.getcwd()}")
+    except FileNotFoundError:
+        print(f"指定的目录 '{directory}' 不存在")
+
 # 示例用法
 #url = 'http://example.com/somefile.zip'
 #output_dir = 'downloads'  # 可以是相对路径或绝对路径
@@ -117,7 +130,7 @@ def remove():
 # ...
 # 初始化变量以进入循环
 running = True
-a="0.0.0.2"
+a="0.0.1.2\ndate:2024.11.7"
 print("这是一个简单的工具箱")
 print("本程序由haswell(Githud : leigong)制作")
 print(a+"\n随机码\t"+str(random.randint(1,1000000)))
@@ -131,6 +144,8 @@ while running:
         running = False  # 设置条件为False以退出循环
     elif toolspower == 'help':
         print("time---显示时间\npower--计算a的b次方\npowerpuls--特殊的幂运算\nbin--二进制转换器\ncal\calculate--简单的计算器\nmktxt--创建新的文件\ntxt--编辑文件\nretxt--读取文件\ndownload\wget--下载文件\nmakedir--创建文件夹\nremove--删除文件/文件夹\nclear--清除上面的信息\nrename--重命名文件")
+    elif toolspower == 'version':
+        print(a)
     elif toolspower == 'time':
         print(time.asctime(time.localtime(time.time())))
     elif toolspower == 'power':
@@ -172,5 +187,10 @@ while running:
         remove()
     elif toolspower == 'clear':
         os.system('cls')
+    elif toolspower == 'cd':
+        cd()
+    elif toolspower == 'oct':
+        a = int(input("要转换的二进制数字是: "))
+        print(oct(a)[2:])
     else:
         print("未知命令，请重新输入.")
